@@ -26,7 +26,6 @@ for (x in 1:length(filesA))
   CD_normalized[[x]]
 }
 
-CD_normalized
 FolderB = "~/data/Disease data/DD"
 filesB = list.files(FolderB,pattern="*.txt")
 DD_read = NULL
