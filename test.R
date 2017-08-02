@@ -10,7 +10,7 @@ FolderA = "~/data/Disease data/CD"
 filesA = list.files(FolderA,pattern="*.txt")
 CD_read = NULL
 CD_normalized = NULL
-
+#hahaha
 for (x in 1:length(filesA))
 {
   temppath = paste(FolderA,filesA[x],sep = "/")
@@ -25,6 +25,7 @@ for (x in 1:length(filesA))
   CD_normalized[[x]] <- data.Normalization(CD_read_numeric,type="n1")
   CD_normalized[[x]]
 }
+
 
 FolderB = "~/data/Disease data/DD"
 filesB = list.files(FolderB,pattern="*.txt")
