@@ -17,9 +17,9 @@ for (x in 1:length(filesA))
   temppath
   CD_read <-read.table(temppath, header=F,sep="\t",stringsAsFactors=FALSE)
   #刪除末3年資料
-  CD_read <- CD_read[,-14]
-  CD_read <- CD_read[,-13]
-  CD_read <- CD_read[,-12]
+  CD_read <- CD_read[,-3]
+  CD_read <- CD_read[,-2]
+  CD_read <- CD_read[,-1]
   CD_read
   CD_read_numeric <- as.numeric(unlist(CD_read))
   CD_normalized[[x]] <- data.Normalization(CD_read_numeric,type="n1")
