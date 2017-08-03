@@ -36,9 +36,9 @@ for(x in 1:length(filesB))
   temppath = paste(FolderB,filesB[x],sep="/")
   DD_read <- read.table(temppath, header=F,sep="\t",stringsAsFactors=FALSE)
   #刪除末3年資料
-  DD_read <- DD_read[,-14]
-  DD_read <- DD_read[,-13]
-  DD_read <- DD_read[,-12]
+  DD_read <- DD_read[,-3]
+  DD_read <- DD_read[,-2]
+  DD_read <- DD_read[,-1]
   DD_read_numeric <- as.numeric(unlist(DD_read))
   DD_normalized[[x]] <- data.Normalization(DD_read_numeric,type = "n1")
   DD_normalized[[x]]
