@@ -5,12 +5,25 @@ library("clusterSim")
 library("nlme")
 library("analysis")
 library(stats)
+
+#自定義函數 
+data_ks_test <- function(data)
+{
+    test_data <- rnorm(length(data), mean = 0, sd = 1)
+    #檢定測試資料是否來自normal(Yes : p.value>0.05)
+    data_result <- ks.test(unique(test_data),"pnorm")$p.value
+    #檢定data是否與測試資料同分布(Yes : p.value>0.05)
+    test_result <- ks.test(unique(data),unique(test_data))$p.value
+    result <- c(data_result,test_result)
+    return (result)
+}
+
 setwd("C:/Users/LAB401/Documents/data/Disease data")
-FolderA = "~/data/Disease data/CD"
+#FolderA = "~/data/Disease data/CD"
+FolderA = "./CD"
 filesA = list.files(FolderA,pattern="*.txt")
 CD_read = NULL
 CD_normalized = NULL
-#hahaha
 for (x in 1:length(filesA))
 {
   temppath = paste(FolderA,filesA[x],sep = "/")
@@ -27,7 +40,7 @@ for (x in 1:length(filesA))
 }
 
 
-FolderB = "~/data/Disease data/DD"
+FolderB = "./DD"
 filesB = list.files(FolderB,pattern="*.txt")
 DD_read = NULL
 DD_normalized = NULL
@@ -44,7 +57,7 @@ for(x in 1:length(filesB))
   #DD_normalized[[x]]
 }
 
-FolderC = "~/data/Disease data/feature"
+FolderC = "./feature"
 filesC = list.files(FolderC,pattern="*.txt")
 f_read = NULL
 f_normalized = NULL
@@ -112,6 +125,19 @@ for (x in 1:length(filesC))
   f_result[x]<-ks.test(unique(f_normalized[[x]]),"pnorm")$p.value
 }
 names(f_result) <- filesC
-CD_result
-DD_result
-f_result
+#顯示結果and <0.05的值
+#CD_result
+#length(CD_result[CD_result<0.05])
+#DD_result
+#length(DD_result[DD_result<0.05])
+#f_result
+#length(f_result[f_result<0.05])
+
+#ks.test for data and test_data(One time)
+rnorm_testresult <- NULL
+for (CD_index in 1:length(CD_normalized))
+{
+  rnorm_testresult[[CD_index]] <- data_ks_test(unlist(CD_normalized[CD_index]))
+}
+names(rnorm_testresult) <- filesA
+rnorm_testresult
