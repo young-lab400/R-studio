@@ -82,8 +82,27 @@ for (x in 1:length(filesC))
   f_read[10,] <-f_read[10,]/31*30
   f_read[12,] <-f_read[12,]/31*30
   
-  f_read_numeric <- as.numeric(unlist(f_read))
+  #二月份正規化 2000~2011
+  for (year in 1:length(f_read[2,]))
+  {
+	year1 = year+1999
+	if (year1/400==0)
+	{
+		f_read[2,year] <- f_read[2,year]/29*30
+	}
+	else if(year1/4==0&&year1/100!=0)
+	{
+		f_read[2,year] <- f_read[2,year]/29*30
+	}
+	else
+	{
+		f_read[2,year] <- f_read[2,year]/28*30
+	}
+  }
+  
+  
   #f_read_numeric
+  f_read_numeric <- as.numeric(unlist(f_read))
   f_normalized[[x]] <- data.Normalization(f_read_numeric,type="n1")
   #f_normalized[[x]]
 }
