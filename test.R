@@ -81,25 +81,24 @@ for (x in 1:length(filesC))
   f_read[8,] <-f_read[8,]/31*30
   f_read[10,] <-f_read[10,]/31*30
   f_read[12,] <-f_read[12,]/31*30
-  
+  f_read[2,]
   #二月份正規化 2000~2011
   for (year in 1:length(f_read[2,]))
   {
-	year1 = year+1999
-	if (year1/400==0)
-	{
-		f_read[2,year] <- f_read[2,year]/29*30
-	}
-	else if(year1/4==0&&year1/100!=0)
-	{
-		f_read[2,year] <- f_read[2,year]/29*30
-	}
-	else
-	{
-		f_read[2,year] <- f_read[2,year]/28*30
-	}
+  	year1 <- year+1999
+  	if (year1 %% 400==0)
+  	{
+  		f_read[2,year] <- f_read[2,year]/29*30
+  	}
+  	else if(year1 %% 4==0 & year1 %% 100!=0)
+  	{
+  		f_read[2,year] <- f_read[2,year]/29*30
+  	}
+  	else
+  	{
+  		f_read[2,year] <- f_read[2,year]/28*30
+  	}
   }
-  
   
   #f_read_numeric
   f_read_numeric <- as.numeric(unlist(f_read))
@@ -115,9 +114,9 @@ for(x in 1:length(filesA))
   CD_BL_result_2 = data.frame(t(matrix(unlist(CD_BL_result))))
   names(CD_BL_result_2) <- names(CD_BL_result)
 }
-CD_BL_result
-CD_BL_result[3]
-CD_BL_result_2
+#CD_BL_result
+#CD_BL_result[3]
+#CD_BL_result_2
 
 #ks.test for CD
 CD_result <- NULL
@@ -153,10 +152,45 @@ names(f_result) <- filesC
 #length(f_result[f_result<0.05])
 
 #ks.test for data and test_data(One time)
-rnorm_testresult <- NULL
-for (CD_index in 1:length(CD_normalized))
+CD_ks_times <- NULL
+for(smile in 1:100)
 {
-  rnorm_testresult[[CD_index]] <- data_ks_test(unlist(CD_normalized[CD_index]))
+  rnorm_testresult <- NULL
+  for (CD_index in 1:length(CD_normalized))
+  {
+    rnorm_testresult[[CD_index]] <- data_ks_test(unlist(CD_normalized[CD_index]))
+  }
+  names(rnorm_testresult) <- filesA
+  rnorm_testresult <- data.frame(rnorm_testresult)
+  CD_ks_times[smile] <- length(rnorm_testresult[2,rnorm_testresult[2,]<0.05])
 }
-names(rnorm_testresult) <- filesA
-rnorm_testresult
+
+DD_ks_times <- NULL
+for(smile in 1:100)
+{
+  rnorm_testresult <- NULL
+  for (DD_index in 1:length(DD_normalized))
+  {
+    rnorm_testresult[[DD_index]] <- data_ks_test(unlist(DD_normalized[DD_index]))
+  }
+  names(rnorm_testresult) <- filesB
+  rnorm_testresult <- data.frame(rnorm_testresult)
+  DD_ks_times[smile] <- length(rnorm_testresult[2,rnorm_testresult[2,]<0.05])
+}
+
+f_ks_times <- NULL
+for(smile in 1:100)
+{
+  rnorm_testresult <- NULL
+  for (f_index in 1:length(f_normalized))
+  {
+    rnorm_testresult[[f_index]] <- data_ks_test(unlist(f_normalized[f_index]))
+  }
+  names(rnorm_testresult) <- filesC
+  rnorm_testresult <- data.frame(rnorm_testresult)
+  f_ks_times[smile] <- length(rnorm_testresult[2,rnorm_testresult[2,]<0.05])
+}
+
+CD_ks_times
+DD_ks_times
+f_ks_times
