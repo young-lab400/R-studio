@@ -9,7 +9,12 @@ library(stats)
 #自定義函數 
 data_ks_test <- function(data)
 {
-    test_data <- rnorm(length(data), mean = 0, sd = 1)
+    #test_data <- rnorm(length(data), mean = 0, sd = 1)
+    test_data <-NULL
+    for (x in 1:length(data))
+    {
+      test_data <- c(test_data, rnorm(1, mean = 0, sd = 1))
+    }
     #檢定測試資料是否來自normal(Yes : p.value>0.05)
     data_result <- ks.test(unique(test_data),"pnorm")$p.value
     #檢定data是否與測試資料同分布(Yes : p.value>0.05)
