@@ -108,20 +108,9 @@ for (x in 1:length(filesC))
   #f_read_numeric
   f_read_numeric <- as.numeric(unlist(f_read))
   f_normalized[[x]] <- data.Normalization(f_read_numeric,type="n1")
+  #f_normalized[[x]] <- f_read_numeric
   #f_normalized[[x]]
 }
-
-#BL_test for CD 
-for(x in 1:length(filesA))
-{
-  CD_BL_result = Box.test(CD_normalized[[x]],lag = 12,type = "Ljung-Box")
-  CD_BL_result
-  CD_BL_result_2 = data.frame(t(matrix(unlist(CD_BL_result))))
-  names(CD_BL_result_2) <- names(CD_BL_result)
-}
-#CD_BL_result
-#CD_BL_result[3]
-#CD_BL_result_2
 
 #ks.test for CD
 CD_result <- NULL
@@ -196,6 +185,56 @@ for(smile in 1:100)
   f_ks_times[smile] <- length(rnorm_testresult[2,rnorm_testresult[2,]<0.05])
 }
 
-CD_ks_times
-DD_ks_times
-f_ks_times
+#CD_ks_times
+#DD_ks_times
+#f_ks_times
+#ending test
+
+#BL_test for CD 
+CD_BL_result <- NULL
+for(x in 1:length(filesA))
+{
+  CD_BL_result[[x]] <- Box.test(CD_normalized[[x]],lag = 12,type = "Ljung-Box")
+  CD_BL_result[[x]]
+  #CD_BL_result_2 = data.frame(t(matrix(unlist(CD_BL_result))))
+  #names(CD_BL_result_2) <- names(CD_BL_result)
+}
+sink("CD_BL_test.txt",append = FALSE)
+CD_BL_result
+sink()
+
+#BL_test for DD 
+DD_BL_result <- NULL
+for(x in 1:length(filesB))
+{
+  DD_BL_result[[x]] <- Box.test(DD_normalized[[x]],lag = 12,type = "Ljung-Box")
+  DD_BL_result[[x]]
+}
+sink("DD_BL_test.txt",append = FALSE)
+DD_BL_result
+sink()
+
+#BL_test for f 
+f_BL_result <- NULL
+for(x in 1:length(filesC))
+{
+  f_BL_result[[x]] <- Box.test(f_normalized[[x]],lag = 12,type = "Ljung-Box")
+  f_BL_result[[x]]
+}
+sink("f_BL_test.txt",append = FALSE)
+f_BL_result
+sink()
+
+#shapiro.test()
+CD_SP_result <- NULL
+for (x in 1:length(filesA))
+{
+  CD_SP_result[[x]] <-shapiro.test(CD_normalized[[x]])$p.value
+  #CD_SP_result[[x]] <- unlist(CD_SP_result[[x]])
+}
+names(CD_SP_result) <-filesA
+CD_SP_result <- data.frame(CD_SP_result)
+CD_SP_result
+CD_SP_result[CD_SP_result<0.05]
+#CD_SP_result[2,CD_SP_result[2,]<0.05]
+#rnorm_testresult[2,rnorm_testresult[2,] < 0.05]
