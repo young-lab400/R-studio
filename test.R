@@ -111,7 +111,7 @@ for (x in 1:length(filesC))
   #f_normalized[[x]] <- f_read_numeric
   #f_normalized[[x]]
 }
-
+setwd("C:/Users/LAB401/Documents/data/Disease data/test_output")
 #ks.test for CD
 CD_result <- NULL
 for (y in 1:length(filesA))
@@ -210,6 +210,7 @@ for(x in 1:length(filesB))
   DD_BL_result[[x]] <- Box.test(DD_normalized[[x]],lag = 12,type = "Ljung-Box")
   DD_BL_result[[x]]
 }
+DD_BL_result
 sink("DD_BL_test.txt",append = FALSE)
 DD_BL_result
 sink()
@@ -234,7 +235,33 @@ for (x in 1:length(filesA))
 }
 names(CD_SP_result) <-filesA
 CD_SP_result <- data.frame(CD_SP_result)
+sink("CD_SP_test.txt",append = FALSE)
 CD_SP_result
 CD_SP_result[CD_SP_result<0.05]
-#CD_SP_result[2,CD_SP_result[2,]<0.05]
-#rnorm_testresult[2,rnorm_testresult[2,] < 0.05]
+sink()
+
+DD_SP_result <- NULL
+for (x in 1:length(filesB))
+{
+  DD_SP_result[[x]] <-shapiro.test(DD_normalized[[x]])$p.value
+  #CD_SP_result[[x]] <- unlist(CD_SP_result[[x]])
+}
+names(DD_SP_result) <-filesB
+DD_SP_result <- data.frame(DD_SP_result)
+sink("DD_SP_test.txt",append = FALSE)
+DD_SP_result
+DD_SP_result[DD_SP_result<0.05]
+sink()
+
+f_SP_result <- NULL
+for (x in 1:length(filesC))
+{
+  f_SP_result[[x]] <-shapiro.test(f_normalized[[x]])$p.value
+  #CD_SP_result[[x]] <- unlist(CD_SP_result[[x]])
+}
+names(f_SP_result) <-filesC
+f_SP_result <- data.frame(t(f_SP_result))
+sink("f_SP_test.txt",append = FALSE)
+f_SP_result
+f_SP_result[f_SP_result<0.05]
+sink()
