@@ -233,8 +233,9 @@ for (x in 1:length(filesA))
   CD_SP_result[[x]] <-shapiro.test(CD_normalized[[x]])$p.value
   #CD_SP_result[[x]] <- unlist(CD_SP_result[[x]])
 }
-names(CD_SP_result) <-filesA
+
 CD_SP_result <- data.frame(CD_SP_result)
+row.names(CD_SP_result) <-filesA
 sink("CD_SP_test.txt",append = FALSE)
 CD_SP_result
 CD_SP_result[CD_SP_result<0.05]
@@ -246,8 +247,9 @@ for (x in 1:length(filesB))
   DD_SP_result[[x]] <-shapiro.test(DD_normalized[[x]])$p.value
   #CD_SP_result[[x]] <- unlist(CD_SP_result[[x]])
 }
-names(DD_SP_result) <-filesB
+
 DD_SP_result <- data.frame(DD_SP_result)
+row.names(DD_SP_result) <-filesB
 sink("DD_SP_test.txt",append = FALSE)
 DD_SP_result
 DD_SP_result[DD_SP_result<0.05]
@@ -259,8 +261,10 @@ for (x in 1:length(filesC))
   f_SP_result[[x]] <-shapiro.test(f_normalized[[x]])$p.value
   #CD_SP_result[[x]] <- unlist(CD_SP_result[[x]])
 }
-names(f_SP_result) <-filesC
-f_SP_result <- data.frame(t(f_SP_result))
+f_SP_result <- data.frame(f_SP_result)
+row.names(f_SP_result) <-filesC
+f_SP_result
+row.names(f_SP_result)
 sink("f_SP_test.txt",append = FALSE)
 f_SP_result
 f_SP_result[f_SP_result<0.05]
